@@ -11,7 +11,6 @@ public class Disciplina {
     private Calendar dataInclusao;
     private Calendar dataExclusao;
     private String ementa;
-    private TipoDisciplina tipoDisciplina;
 
     public long getCodigo() {
         return codigo;
@@ -69,11 +68,4 @@ public class Disciplina {
         this.ementa = ementa;
     }
 
-    public TipoDisciplina getTipoDisciplina() {
-        return tipoDisciplina;
-    }
-
-    public void setTipoDisciplina(TipoDisciplina tipoDisciplina) {
-        this.tipoDisciplina = tipoDisciplina;
-    }
 }

@@ -7,20 +7,16 @@ public class Funcionario {
     private long codigo;
     private String nome;
     private String cpf;
-    private String passaporte;
     private String rg;
-    private String senha;
-    private String rga;
     private Calendar dataNascimento;
     private String telefone;
     private String email;
     private String nacionalidade;
     private String cidade;
     private String uf;
-    private Calendar dataAdmissao;
-    private Calendar dataDemissao;
     private double salario;
-    private String sexo;
+    private Sexo sexo;
+    private String cargo;
     private Funcao funcao;
 
     public long getCodigo() {
@@ -47,36 +43,12 @@ public class Funcionario {
         this.cpf = cpf;
     }
 
-    public String getPassaporte() {
-        return passaporte;
-    }
-
-    public void setPassaporte(String passaporte) {
-        this.passaporte = passaporte;
-    }
-
     public String getRg() {
         return rg;
     }
 
     public void setRg(String rg) {
         this.rg = rg;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getRga() {
-        return rga;
-    }
-
-    public void setRga(String rga) {
-        this.rga = rga;
     }
 
     public Calendar getDataNascimento() {
@@ -127,22 +99,6 @@ public class Funcionario {
         this.uf = uf;
     }
 
-    public Calendar getDataAdmissao() {
-        return dataAdmissao;
-    }
-
-    public void setDataAdmissao(Calendar dataAdmissao) {
-        this.dataAdmissao = dataAdmissao;
-    }
-
-    public Calendar getDataDemissao() {
-        return dataDemissao;
-    }
-
-    public void setDataDemissao(Calendar dataDemissao) {
-        this.dataDemissao = dataDemissao;
-    }
-
     public double getSalario() {
         return salario;
     }
@@ -151,11 +107,11 @@ public class Funcionario {
         this.salario = salario;
     }
 
-    public String getSexo() {
+    public Sexo getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 
@@ -165,6 +121,14 @@ public class Funcionario {
 
     public void setFuncao(Funcao funcao) {
         this.funcao = funcao;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public String exibir() {

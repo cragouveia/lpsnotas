@@ -4,6 +4,9 @@ public class Professor extends Funcionario {
 
     private String faculdade;
 
+    public Professor() {
+    }
+
     public String getFaculdade() {
         return faculdade;
     }

@@ -2,7 +2,7 @@ package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
 import java.util.Calendar;
 
-public class Turma {
+public class Turma implements Entidade{
 
     private long codigo;
     private String sigla;
@@ -75,5 +75,10 @@ public class Turma {
 
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    @Override
+    public String exibir() {
+        return String.format("Turma: %d - %s", this.getCodigo(), this.getSigla());
     }
 }

@@ -1,16 +1,14 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
-import java.util.Calendar;
+public class DisciplinaPosGraduacao extends Disciplina {
 
-public class DisciplinaPosGraduacao extends TipoDisciplina {
+    private String area;
 
-    private Calendar dataCriacao;
-
-    public Calendar getDataCriacao() {
-        return dataCriacao;
+    public String getArea() {
+        return area;
     }
 
-    public void setDataCriacao(Calendar dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setArea(String area) {
+        this.area = area;
     }
 }

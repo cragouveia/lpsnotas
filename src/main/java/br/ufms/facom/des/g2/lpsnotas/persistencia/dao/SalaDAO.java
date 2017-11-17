@@ -11,8 +11,7 @@ import java.util.List;
 public class SalaDAO extends Dao<Sala> {
 
     public SalaDAO() {
-        super("sala",
-                "Sala",
+        super("Sala",
                 "insert into sala(nome, descricao, bloco, capacidade) values(?, ?, ?, ?)",
                 "update sala set nome = ?, descricao = ?, bloco = ?, capacidade = ? where codigo = ?",
                 "delete from sala where codigo = ?",
@@ -21,7 +20,7 @@ public class SalaDAO extends Dao<Sala> {
     }
 
     @Override
-    protected void start() {
+    public void start() {
         SalaBuilder.newSala("Sala 1", "Sala multimeios", "Bloco A", 20)
                 .more("Sala 2", "Laboratório de Pós Graduação", "Bloco B", 30)
                 .buildAll().forEach(sala -> save(sala));

@@ -2,6 +2,7 @@ package br.ufms.facom.des.g2.lpsnotas.persistencia.builder;
 
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcionario;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Sexo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,14 +18,12 @@ public class FuncionarioBuilder {
         funcionarios.add(funcionario);
     }
 
-    public static FuncionarioBuilder newFuncionario(String nome, String cpf, String rg, String senha, String rga, String dataNascimento, String telefone, String email, String nacionalidade,
-                                                    String cidade, String uf, String dataAdmissao, double salario, String sexo, Funcao funcao) {
+    public static FuncionarioBuilder newFuncionario(String nome, String cpf, String rg, String dataNascimento, String telefone, String email, String nacionalidade,
+                                                    String cidade, String uf, double salario, String sexo, String cargo, Funcao funcao) {
         try {
             Calendar calendarDataNascimento = Calendar.getInstance();
             calendarDataNascimento.setTime(strToDate.parse(dataNascimento));
-            Calendar calendarDataAdmissao = Calendar.getInstance();
-            calendarDataAdmissao.setTime(strToDate.parse(dataAdmissao));
-            Funcionario funcionario = create(nome, cpf, rg, senha, rga, calendarDataNascimento, telefone, email, nacionalidade, cidade, uf, calendarDataAdmissao, salario, sexo, funcao);
+            Funcionario funcionario = create(nome, cpf, rg, calendarDataNascimento, telefone, email, nacionalidade, cidade, uf, salario, sexo, cargo, funcao);
             return new FuncionarioBuilder(funcionario);
         }
         catch (Exception e) {
@@ -32,35 +31,31 @@ public class FuncionarioBuilder {
         }
     }
 
-    private static Funcionario create(String nome, String cpf, String rg, String senha, String rga, Calendar dataNascimento, String telefone, String email, String nacionalidade,
-                                      String cidade, String uf, Calendar dataAdmissao, double salario, String sexo, Funcao funcao) {
+    private static Funcionario create(String nome, String cpf, String rg, Calendar dataNascimento, String telefone, String email, String nacionalidade,
+                                      String cidade, String uf, double salario, String sexo, String cargo, Funcao funcao) {
         Funcionario funcionario = new Funcionario();
         funcionario.setNome(nome);
         funcionario.setCpf(cpf);
         funcionario.setRg(rg);
-        funcionario.setSenha(senha);
-        funcionario.setRga(rga);
         funcionario.setDataNascimento(dataNascimento);
         funcionario.setTelefone(telefone);
         funcionario.setEmail(email);
         funcionario.setNacionalidade(nacionalidade);
         funcionario.setCidade(cidade);
         funcionario.setUf(uf);
-        funcionario.setDataAdmissao(dataAdmissao);
         funcionario.setSalario(salario);
-        funcionario.setSexo(sexo);
+        funcionario.setSexo(Sexo.valueOf(sexo));
+        funcionario.setCargo(cargo);
         funcionario.setFuncao(funcao);
         return funcionario;
     }
 
-    public  FuncionarioBuilder more(String nome, String cpf, String rg, String senha, String rga, String dataNascimento, String telefone, String email, String nacionalidade,
-                                                    String cidade, String uf, String dataAdmissao, double salario, String sexo, Funcao funcao) {
+    public  FuncionarioBuilder more(String nome, String cpf, String rg, String dataNascimento, String telefone, String email, String nacionalidade,
+                                                    String cidade, String uf, double salario, String sexo, String cargo, Funcao funcao) {
         try {
             Calendar calendarDataNascimento = Calendar.getInstance();
             calendarDataNascimento.setTime(strToDate.parse(dataNascimento));
-            Calendar calendarDataAdmissao = Calendar.getInstance();
-            calendarDataAdmissao.setTime(strToDate.parse(dataAdmissao));
-            funcionarios.add(create(nome, cpf, rg, senha, rga, calendarDataNascimento, telefone, email, nacionalidade, cidade, uf, calendarDataAdmissao, salario, sexo, funcao));
+            funcionarios.add(create(nome, cpf, rg, calendarDataNascimento, telefone, email, nacionalidade, cidade, uf, salario, sexo, cargo, funcao));
             return this;
         }
         catch (Exception e) {

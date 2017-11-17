@@ -8,7 +8,6 @@ public class LpsNotasApplication {
         FuncionarioService funcionarioService = new FuncionarioService();
         ProfessorService professorService = new ProfessorService();
         SalaService salaService = new SalaService();
-        TipoDisciplinaService tipoDisciplinaService = new TipoDisciplinaService();
         try {
             funcaoService.getAll().forEach(o -> System.out.println(o.exibir()));
             System.out.println();
@@ -17,8 +16,6 @@ public class LpsNotasApplication {
             professorService.getAll().forEach(o -> System.out.println(o.exibir()));
             System.out.println();
             salaService.getAll().forEach(o -> System.out.println(o.exibir()));
-            System.out.println();
-            tipoDisciplinaService.getAll().forEach(o -> System.out.println(o.exibir()));
             System.out.println();
         }
         catch (Exception e) {

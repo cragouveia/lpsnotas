@@ -8,8 +8,7 @@ import java.sql.ResultSet;
 public class FuncaoDAO extends Dao<Funcao> {
 
     public FuncaoDAO() {
-        super("funcao",
-                "Função",
+        super("Função",
                 "insert into funcao(nome, descricao) values(?, ?)",
                 "update funcao set nome = ?, descricao = ? where codigo = ?",
                 "delete from funcao where codigo = ?",
@@ -18,7 +17,7 @@ public class FuncaoDAO extends Dao<Funcao> {
     }
 
     @Override
-    protected void start() {
+    public void start() {
         FuncaoBuilder.newFuncao("Administador", "Usuário com permissões de administrar todo o sistema")
                 .more("Professor", "Usuário com permissões de gerenciar notas de alunos")
                 .more("Aluno", "Usuário com permissões de consulta notas de alunos")

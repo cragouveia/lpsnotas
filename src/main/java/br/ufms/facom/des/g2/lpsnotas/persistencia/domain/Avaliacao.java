@@ -1,6 +1,6 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
-public class Avaliacao {
+public class Avaliacao implements Entidade{
 
     private long codigo;
     private String nome;
@@ -28,5 +28,10 @@ public class Avaliacao {
 
     public void setTurma(Turma turma) {
         this.turma = turma;
+    }
+
+    @Override
+    public String exibir() {
+        return String.format("Avaliação: %d - %s => Turma %s", this.getCodigo(), this.getNome(), this.getTurma().getSigla());
     }
 }

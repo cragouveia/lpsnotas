@@ -4,7 +4,9 @@ import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Entidade;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public abstract class Dao<T> {
@@ -16,13 +18,15 @@ public abstract class Dao<T> {
     private static final String DRIVER   = "com.mysql.cj.jdbc.Driver";
     private static final String URL      = "jdbc:mysql://localhost:3306/lpsnotas?createDatabaseIfNotExist=true";
 
+    protected static final SimpleDateFormat jdbcFormat = new SimpleDateFormat("yyyy-MM-dd");
+    protected static final Calendar calendar = Calendar.getInstance();
     protected static Connection connection;
     protected PreparedStatement pstmt;
     protected ResultSet rs;
 
     private static final String [] SQL_TABLE = new String[] {
             "create table funcao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250));",
-            "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), passaporte varchar(15), rg varchar(15), senha varchar(10),  rga varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), dataAdmissao date not null, dataDemissao date, salario numeric(10,2), sexo char(1), codigoFuncao int references funcao(codigo));",
+            "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), rg varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), salario numeric(10,2), sexo char(1), codigoFuncao int references funcao(codigo));",
             "create table professor (codigo int primary key check (codigo > 0), faculdade varchar(100) not null, foreign key (codigo) references funcionario(codigo));",
             "create table sala (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250), bloco varchar(10), capacidade int);",
             "create table tipodisciplina (codigo int primary key AUTO_INCREMENT check (codigo > 0), descricao varchar(100) not null);"
@@ -36,7 +40,6 @@ public abstract class Dao<T> {
     protected String DELETE_SQL;
     protected String FIND_BY_ID_SQL;
     protected String GET_ALL_SQL;
-    protected String tableName;
     protected String tableDescription;
 
     static {
@@ -49,27 +52,24 @@ public abstract class Dao<T> {
         }
     }
 
-    public Dao(String tableName, String tableDescription, String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
+    public Dao(String tableDescription, String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
         super();
-        this.tableName = tableName;
+        this.tableDescription = tableDescription;
         this.INSERT_SQL = INSERT_SQL;
         this.UPDATE_SQL = UPDATE_SQL;
         this.DELETE_SQL = DELETE_SQL;
         this.FIND_BY_ID_SQL = FIND_BY_ID_SQL;
         this.GET_ALL_SQL = GET_ALL_SQL;
-        createTable(tableName);
+        createTables();
     }
 
-    private void createTable(String tableName) {
+    private void createTables() {
         try {
             try {
                 for (int i = 0; i < SQL_TABLE.length; i++) {
-                    if (tableName.equals(TABLE[i])) {
-                        if (!validadeTable(TABLE[i])) {
-                            pstmt = connection.prepareStatement(SQL_TABLE[i]);
-                            pstmt.executeUpdate();
-                            start();
-                        }
+                    if (!validadeTable(TABLE[i])) {
+                        pstmt = connection.prepareStatement(SQL_TABLE[i]);
+                        pstmt.executeUpdate();
                     }
                 }
             }
@@ -100,7 +100,7 @@ public abstract class Dao<T> {
         }
     }
 
-    protected abstract void start();
+    public abstract void start();
 
     protected abstract T resultSetToObjet(ResultSet rs);
 
@@ -171,7 +171,7 @@ public abstract class Dao<T> {
                 pstmt = connection.prepareStatement(GET_LAST_ID);
                 rs = pstmt.executeQuery();
                 if (rs.next()) {
-                    codigo = rs.getLong(0);
+                    codigo = rs.getLong(1);
                 }
             }
             finally {

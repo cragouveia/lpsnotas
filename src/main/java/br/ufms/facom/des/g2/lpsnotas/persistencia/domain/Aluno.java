@@ -2,14 +2,12 @@ package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
 import java.util.Calendar;
 
-public class Aluno {
+public class Aluno implements Entidade{
 
     private long codigo;
     private String nome;
     private String cpf;
-    private String passaporte;
     private String rg;
-    private String senha;
     private String rga;
     private Calendar dataNascimento;
     private String telefone;
@@ -17,9 +15,8 @@ public class Aluno {
     private String nacionalidade;
     private String cidade;
     private String uf;
-    private Calendar dataMatricula;
     private String curso;
-    private String sexo;
+    private Sexo sexo;
 
     public long getCodigo() {
         return codigo;
@@ -45,28 +42,12 @@ public class Aluno {
         this.cpf = cpf;
     }
 
-    public String getPassaporte() {
-        return passaporte;
-    }
-
-    public void setPassaporte(String passaporte) {
-        this.passaporte = passaporte;
-    }
-
     public String getRg() {
         return rg;
     }
 
     public void setRg(String rg) {
         this.rg = rg;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
     }
 
     public String getRga() {
@@ -125,14 +106,6 @@ public class Aluno {
         this.uf = uf;
     }
 
-    public Calendar getDataMatricula() {
-        return dataMatricula;
-    }
-
-    public void setDataMatricula(Calendar dataMatricula) {
-        this.dataMatricula = dataMatricula;
-    }
-
     public String getCurso() {
         return curso;
     }
@@ -141,11 +114,16 @@ public class Aluno {
         this.curso = curso;
     }
 
-    public String getSexo() {
+    public Sexo getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(Sexo sexo) {
         this.sexo = sexo;
+    }
+
+    @Override
+    public String exibir() {
+        return String.format("Aluno: %s - %s", this.getRga(), this.getNome()) ;
     }
 }

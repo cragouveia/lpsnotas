@@ -1,14 +1,14 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
-public class DisciplinaGraduacao extends TipoDisciplina {
+public class DisciplinaGraduacao extends Disciplina {
 
-    private int anoCriacao;
+    private String eixo;
 
-    public int getAnoCriacao() {
-        return anoCriacao;
+    public String getEixo() {
+        return eixo;
     }
 
-    public void setAnoCriacao(int anoCriacao) {
-        this.anoCriacao = anoCriacao;
+    public void setEixo(String eixo) {
+        this.eixo = eixo;
     }
 }
