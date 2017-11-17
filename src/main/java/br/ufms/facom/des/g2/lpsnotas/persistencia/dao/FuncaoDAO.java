@@ -1,0 +1,60 @@
+package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
+
+import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
+
+import java.sql.ResultSet;
+
+public class FuncaoDAO extends Dao<Funcao> {
+
+    public FuncaoDAO() {
+        super("Função",
+                "insert into funcao(nome, descricao) values(?, ?)",
+                "update funcao set nome = ?, descricao = ? where codigo = ?",
+                "delete from funcao where codigo = ?",
+                "select * from funcao where codigo = ?",
+                "select * from funcao order by nome");
+    }
+
+    @Override
+    protected Funcao resultSetToObjet(ResultSet rs) {
+        Funcao funcao = new Funcao();
+        try {
+            funcao.setCodigo(rs.getLong("codigo"));
+            funcao.setNome(rs.getString("nome"));
+            funcao.setDescricao(rs.getString("descricao"));
+        }
+        catch (Exception e) {
+            logger.error(e);
+        }
+        return funcao;
+    }
+
+    @Override
+    public Funcao save(Funcao funcao) {
+        try {
+            try {
+                if (funcao.getCodigo() == 0) {
+                    pstmt = connection.prepareStatement(INSERT_SQL);
+                } else {
+                    pstmt = connection.prepareStatement(UPDATE_SQL);
+                    pstmt.setLong(3, funcao.getCodigo());
+                }
+                pstmt.setString(1, funcao.getNome());
+                pstmt.setString(2, funcao.getDescricao());
+                pstmt.execute();
+                if (funcao.getCodigo() == 0) {
+                    funcao.setCodigo(getCodigoObjeto());
+                }
+            }finally {
+                pstmt.close();
+            }
+        }
+        catch (Exception e) {
+            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", funcao.exibir()));
+        }
+        return funcao;
+    }
+
+
+
+}
