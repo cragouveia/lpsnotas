@@ -29,6 +29,7 @@ public class FuncaoBuilder {
         funcoes.add(create(nome, descricao));
         return this;
     }
+
     public Funcao buildOne() { return funcoes.get(0);}
 
     public List<Funcao> buildAll() {
