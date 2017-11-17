@@ -50,6 +50,6 @@ public class Sala {
     }
 
     public String exibir() {
-        return String.format("Sala %l - %s - %d", this.getCodigo(), this.getNome(), this.getCapacidade());
+        return String.format("Sala %d - %s - %d", this.getCodigo(), this.getNome(), this.getCapacidade());
     }
 }

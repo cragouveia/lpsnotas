@@ -1,5 +1,7 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.FuncaoBuilder;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.SalaBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Sala;
 
 import java.sql.ResultSet;
@@ -9,12 +11,20 @@ import java.util.List;
 public class SalaDAO extends Dao<Sala> {
 
     public SalaDAO() {
-        super("Sala",
+        super("sala",
+                "Sala",
                 "insert into sala(nome, descricao, bloco, capacidade) values(?, ?, ?, ?)",
                 "update sala set nome = ?, descricao = ?, bloco = ?, capacidade = ? where codigo = ?",
                 "delete from sala where codigo = ?",
                 "select * from sala where codigo = ?",
                 "select * from sala order by nome");
+    }
+
+    @Override
+    protected void start() {
+        SalaBuilder.newSala("Sala 1", "Sala multimeios", "Bloco A", 20)
+                .more("Sala 2", "Laboratório de Pós Graduação", "Bloco B", 30)
+                .buildAll().forEach(sala -> save(sala));
     }
 
     @Override

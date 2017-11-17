@@ -14,7 +14,7 @@ public class Professor extends Funcionario {
 
     @Override
     public String exibir() {
-        return String.format("Professor %l - %s - %s", this.getCodigo(), this.getCpf(), this.getNome());
+        return String.format("Professor %d - %s - %s", this.getCodigo(), this.getCpf(), this.getNome());
     }
 
 

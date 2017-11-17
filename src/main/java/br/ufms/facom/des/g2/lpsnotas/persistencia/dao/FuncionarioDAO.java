@@ -1,8 +1,11 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.FuncionarioBuilder;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcionario;
 
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -13,12 +16,24 @@ public class FuncionarioDAO extends Dao<Funcionario> {
     private static final FuncaoDAO funcaoDAO = new FuncaoDAO();
 
     public FuncionarioDAO() {
-        super("Funcionário",
+        super("funcionario",
+                "Funcionário",
                 "insert into funcionario(nome, cpf, passaporte, rg, senha, rga, dataNascimento, telefone, email, nacionalidade, cidade, uf, dataAdmissao, dataDemissao, salario, sexo, codigoFuncao) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 "update funcionario set nome = ?, cpf = ?, passaporte = ?, rg = ?, senha = ?, rga = ?, dataNascimento = ?, telefone = ?, email = ?, nacionalidade = ?, cidade = ?, uf = ?, dataAdmissao = ?, dataDemissao = ?, salario = ?, sexo = ?, codigoFuncao = ? where codigo = ?",
                 "delete from funcionario where codigo = ?",
                 "select * from funcionario where codigo = ?",
                 "select * from funcionario order by nome");
+    }
+
+    @Override
+    protected void start() {
+        Funcao f = new Funcao();
+        f.setCodigo(1);
+        FuncionarioBuilder.newFuncionario("Joao Carlos da Silva", "123456789-77", "331321", "senha123", "123456", "02/05/1971",
+                "3312-2345", "joao@facom.ufms.br", "Brasileira", "Campo Grande", "MS", "01/02/1989", 4500, "M", f)
+                .more("Maria Antonieta da Silva", "434341212-54", "2121", "senha123", "456789", "01/09/1990",
+                        "3312-2357", "antonieta@facom.ufms.br", "Brasileira", "Campo Grande", "MS", "01/06/2009", 2800, "F", f)
+                .buildAll().forEach(funcionario -> save(funcionario));
     }
 
     @Override
@@ -74,14 +89,14 @@ public class FuncionarioDAO extends Dao<Funcionario> {
                 pstmt.setString(4, funcionario.getRg());
                 pstmt.setString(5, funcionario.getSenha());
                 pstmt.setString(6, funcionario.getRga());
-                pstmt.setString(7, jdbcFormat.format(funcionario.getDataNascimento()));
+                pstmt.setDate(7, new java.sql.Date(funcionario.getDataNascimento().getTime().getTime()));
                 pstmt.setString(8, funcionario.getTelefone());
                 pstmt.setString(9, funcionario.getEmail());
                 pstmt.setString(10, funcionario.getNacionalidade());
                 pstmt.setString(11, funcionario.getCidade());
                 pstmt.setString(12, funcionario.getUf());
-                pstmt.setString(13, jdbcFormat.format(funcionario.getDataAdmissao()));
-                pstmt.setString(14, jdbcFormat.format(funcionario.getDataDemissao()));
+                pstmt.setDate(13, new java.sql.Date(funcionario.getDataAdmissao().getTime().getTime()));
+                pstmt.setDate(14, funcionario.getDataDemissao() == null ? null : new java.sql.Date(funcionario.getDataDemissao().getTime().getTime()));
                 pstmt.setDouble(15, funcionario.getSalario());
                 pstmt.setString(16, funcionario.getSexo());
                 pstmt.setLong(17, funcionario.getFuncao().getCodigo());

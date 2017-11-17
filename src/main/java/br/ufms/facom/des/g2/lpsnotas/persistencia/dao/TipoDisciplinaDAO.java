@@ -1,5 +1,6 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.TipoDisciplinaBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.TipoDisciplina;
 
 import java.sql.ResultSet;
@@ -7,12 +8,20 @@ import java.sql.ResultSet;
 public class TipoDisciplinaDAO extends Dao<TipoDisciplina> {
 
     public TipoDisciplinaDAO() {
-        super("Tipo de Disciplina",
+        super("tipodisciplina",
+                "Tipo de Disciplina",
                 "insert into tipodisciplina(descricao) values(?)",
                 "update tipodisciplina set descricao = ? where codigo = ?",
                 "delete from tipodisciplina where codigo = ?",
                 "select * from tipodisciplina where codigo = ?",
                 "select * from tipodisciplina order by descricao");
+    }
+
+    @Override
+    protected void start() {
+        TipoDisciplinaBuilder.newTipoDisciplina("Disciplina de Graduação")
+                .more("Disciplina de Pós Graduação")
+                .buildAll().forEach(tipoDisciplina -> save(tipoDisciplina));
     }
 
     @Override

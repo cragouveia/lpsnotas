@@ -1,6 +1,9 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.FuncionarioBuilder;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.ProfessorBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Entidade;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Professor;
 
 import java.sql.ResultSet;
@@ -11,12 +14,24 @@ public class ProfessorDAO extends Dao<Professor> {
 
 
     public ProfessorDAO() {
-        super("Professor",
+        super("professor",
+                "Professor",
                 "insert into professor(codigo, faculdade) values(?, ?)",
                 "update professor set faculdade = ? where codigo = ?",
                 "delete from professor where codigo = ?",
                 "select * from professor where codigo = ?",
                 "select * from professor order by descricao");
+    }
+
+    @Override
+    protected void start() {
+        Funcao f = new Funcao();
+        f.setCodigo(2);
+        ProfessorBuilder.newProfessor("Tiago Alencar", "312121214-77", "331321", "senha123", "123456", "02/05/1971",
+                "3312-2345", "tiago@facom.ufms.br", "Brasileira", "Campo Grande", "MS", "01/02/1989", 10000, "M", f, "FACOM")
+                .more("Amanda de Oliveira", "564567891-54", "2121", "senha123", "456789", "01/09/1990",
+                        "3312-2131", "amanda@facom.ufms.br", "Brasileira", "Campo Grande", "MS", "01/06/2009", 10000, "F", f, "FACOM")
+                .buildAll().forEach(professor -> save(professor));
     }
 
     @Override

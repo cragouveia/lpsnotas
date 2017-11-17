@@ -1,5 +1,6 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.FuncaoBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
 
 import java.sql.ResultSet;
@@ -7,12 +8,21 @@ import java.sql.ResultSet;
 public class FuncaoDAO extends Dao<Funcao> {
 
     public FuncaoDAO() {
-        super("Função",
+        super("funcao",
+                "Função",
                 "insert into funcao(nome, descricao) values(?, ?)",
                 "update funcao set nome = ?, descricao = ? where codigo = ?",
                 "delete from funcao where codigo = ?",
                 "select * from funcao where codigo = ?",
                 "select * from funcao order by nome");
+    }
+
+    @Override
+    protected void start() {
+        FuncaoBuilder.newFuncao("Administador", "Usuário com permissões de administrar todo o sistema")
+                .more("Professor", "Usuário com permissões de gerenciar notas de alunos")
+                .more("Aluno", "Usuário com permissões de consulta notas de alunos")
+                .buildAll().forEach(funcao -> save(funcao));
     }
 
     @Override

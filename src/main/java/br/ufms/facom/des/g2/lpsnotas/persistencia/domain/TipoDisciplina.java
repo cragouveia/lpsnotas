@@ -22,7 +22,7 @@ public class TipoDisciplina implements Entidade{
     }
 
     public String exibir() {
-        return String.format("Tipo de Disciplina %l - %s", this.getCodigo(), this.getDescricao());
+        return String.format("Tipo de Disciplina %d - %s", this.getCodigo(), this.getDescricao());
     }
 
 }

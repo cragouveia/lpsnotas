@@ -168,7 +168,7 @@ public class Funcionario {
     }
 
     public String exibir() {
-        return String.format("Funcionario %l - %s - %s", this.getCodigo(), this.getCpf(), this.getNome());
+        return String.format("Funcionario %d - %s - %s", this.getCodigo(), this.getCpf(), this.getNome());
     }
 
 }

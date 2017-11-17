@@ -22,7 +22,7 @@ public abstract class Dao<T> {
 
     private static final String [] SQL_TABLE = new String[] {
             "create table funcao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250));",
-            "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(11), passaporte varchar(15), rg varchar(15), senha varchar(10),  rga varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), dataAdmissao date not null, dataDemissao date, salario numeric(10,2), sexo char(1), codigoFuncao int references funcao(codigo));",
+            "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), passaporte varchar(15), rg varchar(15), senha varchar(10),  rga varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), dataAdmissao date not null, dataDemissao date, salario numeric(10,2), sexo char(1), codigoFuncao int references funcao(codigo));",
             "create table professor (codigo int primary key check (codigo > 0), faculdade varchar(100) not null, foreign key (codigo) references funcionario(codigo));",
             "create table sala (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250), bloco varchar(10), capacidade int);",
             "create table tipodisciplina (codigo int primary key AUTO_INCREMENT check (codigo > 0), descricao varchar(100) not null);"
@@ -37,6 +37,7 @@ public abstract class Dao<T> {
     protected String FIND_BY_ID_SQL;
     protected String GET_ALL_SQL;
     protected String tableName;
+    protected String tableDescription;
 
     static {
         try {
@@ -48,7 +49,7 @@ public abstract class Dao<T> {
         }
     }
 
-    public Dao(String tableName, String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
+    public Dao(String tableName, String tableDescription, String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
         super();
         this.tableName = tableName;
         this.INSERT_SQL = INSERT_SQL;
@@ -56,16 +57,19 @@ public abstract class Dao<T> {
         this.DELETE_SQL = DELETE_SQL;
         this.FIND_BY_ID_SQL = FIND_BY_ID_SQL;
         this.GET_ALL_SQL = GET_ALL_SQL;
-        createTables();
+        createTable(tableName);
     }
 
-    private void createTables() {
+    private void createTable(String tableName) {
         try {
             try {
                 for (int i = 0; i < SQL_TABLE.length; i++) {
-                    if (!validadeTable(TABLE[i])) {
-                        pstmt = connection.prepareStatement(SQL_TABLE[i]);
-                        pstmt.executeUpdate();
+                    if (tableName.equals(TABLE[i])) {
+                        if (!validadeTable(TABLE[i])) {
+                            pstmt = connection.prepareStatement(SQL_TABLE[i]);
+                            pstmt.executeUpdate();
+                            start();
+                        }
                     }
                 }
             }
@@ -95,6 +99,8 @@ public abstract class Dao<T> {
             return false;
         }
     }
+
+    protected abstract void start();
 
     protected abstract T resultSetToObjet(ResultSet rs);
 
@@ -132,7 +138,7 @@ public abstract class Dao<T> {
             }
         }
         catch(Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de recuperar o objeto %s de id %l", tableName, id));
+            new Exception(String.format("Houve um erro na tentativa de recuperar o objeto %s de id %l", tableDescription, id));
         }
         return null;
     }
@@ -153,7 +159,7 @@ public abstract class Dao<T> {
             }
         }
         catch(Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de recuperar a lista de objetos %s", tableName));
+            new Exception(String.format("Houve um erro na tentativa de recuperar a lista de objetos %s", tableDescription));
         }
         return list;
     }
@@ -174,7 +180,7 @@ public abstract class Dao<T> {
             }
         }
         catch(Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de obter a último ID do objetos %s", tableName));
+            new Exception(String.format("Houve um erro na tentativa de obter a último ID do objetos %s", tableDescription));
         }
         return codigo;
     }
