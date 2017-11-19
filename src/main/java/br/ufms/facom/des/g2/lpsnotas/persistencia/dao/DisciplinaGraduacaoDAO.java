@@ -22,7 +22,7 @@ public class DisciplinaGraduacaoDAO extends Dao<DisciplinaGraduacao> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("disciplinagraduacao", "create table disciplinagraduacao (codigo int primary key check (codigo > 0), eixo varchar(100) not null, foreign key (codigo) references disciplina(codigo));");
     }
 
@@ -30,11 +30,11 @@ public class DisciplinaGraduacaoDAO extends Dao<DisciplinaGraduacao> {
     public void start() {
         DisciplinaGraduacaoBuilder.newDisciplinaGraduacao("Desenvolvimento de Software", "DES", "Desenvolvimento de Software", "Eixo 2")
                 .more("Engenharia de Software", "ES", "Engenharia de Software", "Eixo 1")
-                .buildAll().forEach(disciplina -> save(disciplina));
+                .buildAll().forEach(disciplina -> {try{save(disciplina);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected DisciplinaGraduacao resultSetToObjet(ResultSet rs) {
+    protected DisciplinaGraduacao resultSetToObjet(ResultSet rs) throws Exception{
         DisciplinaGraduacao disciplinaGraduacao = new DisciplinaGraduacao();
         try {
             disciplinaGraduacao.setCodigo(rs.getLong("codigo"));
@@ -44,13 +44,13 @@ public class DisciplinaGraduacaoDAO extends Dao<DisciplinaGraduacao> {
             disciplinaGraduacao.setEixo(rs.getString("eixo"));
         }
         catch (Exception e) {
-            logger.error(e);
+           throw e;
         }
         return disciplinaGraduacao;
     }
 
     @Override
-    public DisciplinaGraduacao save(DisciplinaGraduacao disciplinaGraduacao) {
+    public DisciplinaGraduacao save(DisciplinaGraduacao disciplinaGraduacao) throws Exception{
         try {
             try {
                 if (disciplinaGraduacao.getCodigo() == 0) {
@@ -68,13 +68,13 @@ public class DisciplinaGraduacaoDAO extends Dao<DisciplinaGraduacao> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", disciplinaGraduacao.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", disciplinaGraduacao.exibir()));
         }
         return disciplinaGraduacao;
     }
 
     @Override
-    public void delete(Entidade entidade) {
+    public void delete(Entidade entidade) throws Exception{
         super.delete(entidade);
         disciplinaDAO.delete(entidade);
     }

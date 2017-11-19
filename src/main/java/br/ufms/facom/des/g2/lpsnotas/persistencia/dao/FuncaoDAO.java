@@ -17,7 +17,7 @@ public class FuncaoDAO extends Dao<Funcao> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("funcao", "create table funcao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250));");
     }
 
@@ -26,11 +26,11 @@ public class FuncaoDAO extends Dao<Funcao> {
         FuncaoBuilder.newFuncao("Administador", "Usuário com permissões de administrar todo o sistema")
                 .more("Professor", "Usuário com permissões de gerenciar notas de alunos")
                 .more("Aluno", "Usuário com permissões de consulta notas de alunos")
-                .buildAll().forEach(funcao -> save(funcao));
+                .buildAll().forEach(funcao -> {try{save(funcao);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected Funcao resultSetToObjet(ResultSet rs) {
+    protected Funcao resultSetToObjet(ResultSet rs) throws Exception{
         Funcao funcao = new Funcao();
         try {
             funcao.setCodigo(rs.getLong("codigo"));
@@ -38,13 +38,13 @@ public class FuncaoDAO extends Dao<Funcao> {
             funcao.setDescricao(rs.getString("descricao"));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return funcao;
     }
 
     @Override
-    public Funcao save(Funcao funcao) {
+    public Funcao save(Funcao funcao) throws Exception{
         try {
             try {
                 if (funcao.getCodigo() == 0) {
@@ -64,7 +64,7 @@ public class FuncaoDAO extends Dao<Funcao> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", funcao.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", funcao.exibir()));
         }
         return funcao;
     }

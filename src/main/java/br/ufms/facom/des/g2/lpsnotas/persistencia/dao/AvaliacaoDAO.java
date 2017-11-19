@@ -17,7 +17,7 @@ public class AvaliacaoDAO extends Dao<Avaliacao> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("avaliacao", "create table avaliacao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null);");
     }
 
@@ -26,24 +26,24 @@ public class AvaliacaoDAO extends Dao<Avaliacao> {
         AvaliacaoBuilder.newAvaliacao("AV1")
                 .more("AV2")
                 .more("Av3")
-                .buildAll().forEach(avaliacao -> save(avaliacao));
+                .buildAll().forEach(avaliacao -> {try{save(avaliacao);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected Avaliacao resultSetToObjet(ResultSet rs) {
+    protected Avaliacao resultSetToObjet(ResultSet rs) throws Exception{
         Avaliacao avaliacao = new Avaliacao();
         try {
             avaliacao.setCodigo(rs.getLong("codigo"));
             avaliacao.setNome(rs.getString("nome"));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return avaliacao;
     }
 
     @Override
-    public Avaliacao save(Avaliacao avaliacao) {
+    public Avaliacao save(Avaliacao avaliacao) throws Exception{
         try {
             try {
                 if (avaliacao.getCodigo() == 0) {
@@ -62,7 +62,7 @@ public class AvaliacaoDAO extends Dao<Avaliacao> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", avaliacao.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", avaliacao.exibir()));
         }
         return avaliacao;
     }

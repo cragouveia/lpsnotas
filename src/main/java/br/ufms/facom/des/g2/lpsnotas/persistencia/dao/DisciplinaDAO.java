@@ -16,7 +16,7 @@ public class DisciplinaDAO extends Dao<Disciplina> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception {
         createTable("disciplina", "create table disciplina (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(100) not null, sigla char(5) not null, ementa varchar(5000));");
     }
 
@@ -30,7 +30,7 @@ public class DisciplinaDAO extends Dao<Disciplina> {
     }
 
     @Override
-    public Disciplina save(Disciplina disciplina) {
+    public Disciplina save(Disciplina disciplina) throws Exception {
         try {
             try {
                 if (disciplina.getCodigo() == 0) {
@@ -51,7 +51,7 @@ public class DisciplinaDAO extends Dao<Disciplina> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", disciplina.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", disciplina.exibir()));
         }
         return disciplina;
     }

@@ -22,7 +22,7 @@ public class ProfessorDAO extends Dao<Professor> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("professor", "create table professor (codigo int primary key check (codigo > 0), faculdade varchar(100) not null, foreign key (codigo) references funcionario(codigo));");
     }
 
@@ -34,11 +34,11 @@ public class ProfessorDAO extends Dao<Professor> {
                 "3312-2345", "tiago@facom.ufms.br", "Brasileira", "Campo Grande", "MS", 10000, "M", "Professor", f, "FACOM")
                 .more("Amanda de Oliveira", "564567891-54", "2121", "01/09/1990",
                         "3312-2131", "amanda@facom.ufms.br", "Brasileira", "Campo Grande", "MS", 10000, "F", "Professor", f, "FACOM")
-                .buildAll().forEach(professor -> save(professor));
+                .buildAll().forEach(professor -> {try{save(professor);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected Professor resultSetToObjet(ResultSet rs) {
+    protected Professor resultSetToObjet(ResultSet rs) throws Exception{
         Professor professor = new Professor();
         try {
             professor.setCodigo(rs.getLong("codigo"));
@@ -60,13 +60,13 @@ public class ProfessorDAO extends Dao<Professor> {
             professor.setFaculdade(rs.getString("faculdade"));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return professor;
     }
 
     @Override
-    public Professor save(Professor professor) {
+    public Professor save(Professor professor) throws Exception{
         try {
             try {
                 if (professor.getCodigo() == 0) {
@@ -84,13 +84,13 @@ public class ProfessorDAO extends Dao<Professor> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", professor.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", professor.exibir()));
         }
         return professor;
     }
 
     @Override
-    public void delete(Entidade entidade) {
+    public void delete(Entidade entidade) throws Exception {
         super.delete(entidade);
         funcionarioDAO.delete(entidade);
     }

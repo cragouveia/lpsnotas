@@ -20,7 +20,7 @@ public class SalaDAO extends Dao<Sala> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("sala", "create table sala (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250), bloco varchar(10), capacidade int);");
     }
 
@@ -28,11 +28,11 @@ public class SalaDAO extends Dao<Sala> {
     public void start() {
         SalaBuilder.newSala("Sala 1", "Sala multimeios", "Bloco A", 20)
                 .more("Sala 2", "Laboratório de Pós Graduação", "Bloco B", 30)
-                .buildAll().forEach(sala -> save(sala));
+                .buildAll().forEach(sala -> {try{save(sala);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected Sala resultSetToObjet(ResultSet rs) {
+    protected Sala resultSetToObjet(ResultSet rs) throws Exception{
         Sala sala = new Sala();
         try {
             sala.setCodigo(rs.getLong("codigo"));
@@ -42,13 +42,13 @@ public class SalaDAO extends Dao<Sala> {
             sala.setCapacidade(rs.getInt("capacidade"));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return sala;
     }
 
     @Override
-    public Sala save(Sala sala) {
+    public Sala save(Sala sala) throws Exception{
         try {
             try {
                 if (sala.getCodigo() == 0) {
@@ -70,7 +70,7 @@ public class SalaDAO extends Dao<Sala> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", sala.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", sala.exibir()));
         }
         return sala;
     }

@@ -23,13 +23,13 @@ public class AndamentoIndividualDAO extends Dao<AndamentoIndividual> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception {
         createTable("andamentoindividual", "create table andamentoindividual (codigo int primary key AUTO_INCREMENT check (codigo > 0), mediaFinal numeric(5,2) not null, status char(1), codigoaluno int not null references aluno(codigo), codigoprofessor int not null references professor(codigo), codigoturma int not null references turma(codigo));");
         createTable("notaavaliacao", "create table notaavaliacao (codigo int primary key AUTO_INCREMENT check (codigo > 0), codigoAndamento int not null references andamentoindividual(codigo), codigoAvaliacao int not null references avaliacao(codigo), nota double, conceito char(1));");
     }
 
     @Override
-    public void start() {
+    public void start() throws Exception {
 /*
         AndamentoIndividualBuilder.newAndamentoIndividual("Joao Carlos da Silva", "123456789-77", "331321", "02/05/1971",
                 "3312-2345", "joao@facom.ufms.br", "Brasileira", "Campo Grande", "MS", "332323", "M", "Direito")
@@ -40,7 +40,7 @@ public class AndamentoIndividualDAO extends Dao<AndamentoIndividual> {
     }
 
     @Override
-    protected AndamentoIndividual resultSetToObjet(ResultSet rs) {
+    protected AndamentoIndividual resultSetToObjet(ResultSet rs) throws Exception{
         AndamentoIndividual andamentoIndividual = new AndamentoIndividual();
         try {
             andamentoIndividual.setCodigo(rs.getLong("codigo"));
@@ -51,13 +51,13 @@ public class AndamentoIndividualDAO extends Dao<AndamentoIndividual> {
             andamentoIndividual.setTurma(turmaDAO.findById(rs.getLong("codigoTurma")));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return andamentoIndividual;
     }
 
     @Override
-    public AndamentoIndividual save(AndamentoIndividual andamentoIndividual) {
+    public AndamentoIndividual save(AndamentoIndividual andamentoIndividual) throws Exception{
         try {
             connection.setAutoCommit(false);
             try {
@@ -103,7 +103,7 @@ public class AndamentoIndividualDAO extends Dao<AndamentoIndividual> {
             catch (Exception e1) {
                 e1.printStackTrace();
             }
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", andamentoIndividual.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", andamentoIndividual.exibir()));
         }
         return andamentoIndividual;
     }

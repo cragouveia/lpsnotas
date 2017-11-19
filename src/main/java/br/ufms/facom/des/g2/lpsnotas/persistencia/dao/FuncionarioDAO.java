@@ -24,7 +24,7 @@ public class FuncionarioDAO extends Dao<Funcionario> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("funcionario", "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), rg varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), salario numeric(10,2), sexo char(1), cargo varchar(50), codigoFuncao int not null references funcao(codigo));");
     }
 
@@ -36,11 +36,11 @@ public class FuncionarioDAO extends Dao<Funcionario> {
                 "3312-2345", "joao@facom.ufms.br", "Brasileira", "Campo Grande", "MS", 4500, "M", "Técnico Administrativo", f)
                 .more("Maria Antonieta da Silva", "434341212-54", "2121", "01/09/1990",
                         "3312-2357", "antonieta@facom.ufms.br", "Brasileira", "Campo Grande", "MS", 2800, "F", "Administrador", f)
-                .buildAll().forEach(funcionario -> save(funcionario));
+                .buildAll().forEach(funcionario -> {try{save(funcionario);}catch(Exception e){System.out.println(e.getMessage());}});
     }
 
     @Override
-    protected Funcionario resultSetToObjet(ResultSet rs) {
+    protected Funcionario resultSetToObjet(ResultSet rs) throws Exception{
         Funcionario funcionario = new Funcionario();
         try {
             funcionario.setCodigo(rs.getLong("codigo"));
@@ -61,13 +61,13 @@ public class FuncionarioDAO extends Dao<Funcionario> {
             funcionario.setFuncao(funcaoDAO.findById(rs.getLong("codigoFuncao")));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return funcionario;
     }
 
     @Override
-    public Funcionario save(Funcionario funcionario) {
+    public Funcionario save(Funcionario funcionario) throws Exception{
         try {
             try {
                 if (funcionario.getCodigo() == 0) {
@@ -98,7 +98,7 @@ public class FuncionarioDAO extends Dao<Funcionario> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", funcionario.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", funcionario.exibir()));
         }
         return funcionario;
     }

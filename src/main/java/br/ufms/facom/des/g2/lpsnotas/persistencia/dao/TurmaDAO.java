@@ -20,7 +20,7 @@ public class TurmaDAO extends Dao<Turma> {
     }
 
     @Override
-    public void createTable() {
+    public void createTable() throws Exception{
         createTable("turma", "create table disciplina (codigo int primary key AUTO_INCREMENT check (codigo > 0), sigla char(5) not null, horaInicio char(5) not null, horaTermino ementa varchar(5000));");
     }
 
@@ -36,7 +36,7 @@ public class TurmaDAO extends Dao<Turma> {
     }
 
     @Override
-    protected Turma resultSetToObjet(ResultSet rs) {
+    protected Turma resultSetToObjet(ResultSet rs)  throws Exception{
         Turma turma = new Turma();
         try {
             turma.setCodigo(rs.getLong("codigo"));
@@ -51,13 +51,13 @@ public class TurmaDAO extends Dao<Turma> {
             turma.setProfessor(professorDAO.findById(rs.getLong("codigoProfessor")));
         }
         catch (Exception e) {
-            logger.error(e);
+            throw e;
         }
         return turma;
     }
 
     @Override
-    public Turma save(Turma turma) {
+    public Turma save(Turma turma) throws Exception {
         try {
             try {
                 if (turma.getCodigo() == 0) {
@@ -82,7 +82,7 @@ public class TurmaDAO extends Dao<Turma> {
             }
         }
         catch (Exception e) {
-            new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", turma.exibir()));
+            throw new Exception(String.format("Houve um erro na tentativa de salvar o objeto %s", turma.exibir()));
         }
         return turma;
     }
