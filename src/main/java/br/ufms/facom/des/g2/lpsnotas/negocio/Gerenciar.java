@@ -5,7 +5,7 @@ import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Entidade;
 
 import java.util.List;
 
-public class Gerenciar<T> {
+public abstract class Gerenciar<T> {
 
 
     protected Dao<T> dao;
