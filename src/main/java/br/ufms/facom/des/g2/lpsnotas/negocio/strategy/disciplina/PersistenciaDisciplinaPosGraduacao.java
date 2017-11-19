@@ -5,7 +5,6 @@ import br.ufms.facom.des.g2.lpsnotas.persistencia.dao.DisciplinaPosGraduacaoDAO;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.DisciplinaPosGraduacao;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Entidade;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 public class PersistenciaDisciplinaPosGraduacao implements PersistenciaDisciplina<DisciplinaPosGraduacao> {
@@ -29,22 +28,12 @@ public class PersistenciaDisciplinaPosGraduacao implements PersistenciaDisciplin
 
     @Override
     public DisciplinaPosGraduacao save(DisciplinaPosGraduacao obj) throws Exception {
-        if (obj instanceof DisciplinaPosGraduacao) {
-            return dao.save(obj);
-        }
-        else {
-            throw new Exception(String.format("A disciplina %s não é disciplina de pós graduação.", obj.getNome()));
-        }
+        return dao.save(obj);
     }
 
     @Override
     public void delete(Entidade entidade) throws Exception {
-        if (entidade instanceof DisciplinaPosGraduacao) {
-            dao.delete(entidade);
-        }
-        else {
-            throw new Exception(String.format("A disciplina %s não é disciplina de pós graduação.", ((DisciplinaPosGraduacao) entidade).getNome()));
-        }
+        dao.delete(entidade);
     }
 
     @Override

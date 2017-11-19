@@ -64,7 +64,9 @@ public abstract class Dao<T> {
                 }
             }
             finally {
-                pstmt.close();;
+                if (pstmt != null) {
+                    pstmt.close();
+                }
             }
         }
         catch (Exception e) {

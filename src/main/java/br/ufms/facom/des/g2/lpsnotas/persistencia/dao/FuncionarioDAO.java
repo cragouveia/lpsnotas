@@ -54,7 +54,6 @@ public class FuncionarioDAO extends Dao<Funcionario> {
             funcionario.setNacionalidade(rs.getString("nacionalidade"));
             funcionario.setCidade(rs.getString("cidade"));
             funcionario.setUf(rs.getString("uf"));
-            calendar.setTime(jdbcFormat.parse(rs.getString("dataAdmissao")));
             funcionario.setSalario(rs.getDouble("salario"));
             funcionario.setSexo(Sexo.valueOf(rs.getString("sexo")));
             funcionario.setCargo(rs.getString("cargo"));

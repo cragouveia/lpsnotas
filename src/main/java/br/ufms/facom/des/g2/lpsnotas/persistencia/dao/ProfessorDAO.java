@@ -52,7 +52,6 @@ public class ProfessorDAO extends Dao<Professor> {
             professor.setNacionalidade(rs.getString("nacionalidade"));
             professor.setCidade(rs.getString("cidade"));
             professor.setUf(rs.getString("uf"));
-            calendar.setTime(jdbcFormat.parse(rs.getString("dataAdmissao")));
             professor.setSalario(rs.getDouble("salario"));
             professor.setSexo(Sexo.valueOf(rs.getString("sexo")));
             professor.setCargo(rs.getString("cargo"));

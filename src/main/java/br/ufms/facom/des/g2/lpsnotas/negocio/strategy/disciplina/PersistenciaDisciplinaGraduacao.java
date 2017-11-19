@@ -28,22 +28,12 @@ public class PersistenciaDisciplinaGraduacao implements PersistenciaDisciplina<D
 
     @Override
     public DisciplinaGraduacao save(DisciplinaGraduacao obj) throws Exception {
-        if (obj instanceof DisciplinaGraduacao) {
-            return dao.save(obj);
-        }
-        else {
-            throw new Exception(String.format("A disciplina %s não é disciplina de graduação.", obj.getNome()));
-        }
+        return dao.save(obj);
     }
 
     @Override
     public void delete(Entidade entidade)throws Exception {
-        if (entidade instanceof DisciplinaGraduacao) {
-            dao.delete(entidade);
-        }
-        else {
-            throw new Exception(String.format("A disciplina %s não é disciplina de graduação.", ((DisciplinaGraduacao) entidade).getNome()));
-        }
+        dao.delete(entidade);
     }
 
     @Override
