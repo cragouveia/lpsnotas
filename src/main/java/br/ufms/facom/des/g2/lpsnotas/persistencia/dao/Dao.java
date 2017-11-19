@@ -1,7 +1,9 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.dao;
 
+import br.ufms.facom.des.g2.lpsnotas.persistencia.Database;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Entidade;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,11 +11,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public abstract class Dao<T> {
-
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "mysql";
-    private static final String DRIVER   = "com.mysql.cj.jdbc.Driver";
-    private static final String URL      = "jdbc:mysql://localhost:3306/lpsnotas?createDatabaseIfNotExist=true";
 
     protected static final SimpleDateFormat jdbcFormat = new SimpleDateFormat("yyyy-MM-dd");
     protected static final Calendar calendar = Calendar.getInstance();
@@ -31,9 +28,8 @@ public abstract class Dao<T> {
 
     static  {
         try {
-            Class.forName(DRIVER);
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-
+            Class.forName(Database.getDriver());
+            connection = DriverManager.getConnection(Database.getURL(), Database.getUserName(), Database.getPassord());
         }  catch(Exception e) {
             System.out.printf("Houve um erro ao tentar se conectar com  banco de dados");
         }

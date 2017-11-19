@@ -5,6 +5,7 @@ import br.ufms.facom.des.g2.lpsnotas.negocio.GerenciarFuncao;
 import br.ufms.facom.des.g2.lpsnotas.negocio.GerenciarFuncionario;
 import br.ufms.facom.des.g2.lpsnotas.negocio.GerenciarProfessor;
 import br.ufms.facom.des.g2.lpsnotas.negocio.strategy.disciplina.PersistenciaDisciplinaGraduacao;
+import br.ufms.facom.des.g2.lpsnotas.persistencia.Database;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.DisciplinaGraduacaoBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.builder.DisciplinaPosGraduacaoBuilder;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.DisciplinaGraduacao;
@@ -13,6 +14,7 @@ import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.DisciplinaPosGraduacao;
 public class LpsNotasApplication {
     public static void main(String[] args) {
         try {
+            Database.setProperties("root", "mysql", "lpsxx");
             GerenciarFuncao gerenciarFuncao = new GerenciarFuncao();
             gerenciarFuncao.start();
             gerenciarFuncao.getAll().forEach(funcao -> System.out.println(funcao.exibir()));
