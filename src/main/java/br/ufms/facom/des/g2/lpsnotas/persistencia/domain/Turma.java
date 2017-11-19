@@ -2,12 +2,12 @@ package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
 import java.util.Calendar;
 
-public class Turma implements Entidade{
+public class Turma implements Entidade {
 
     private long codigo;
     private String sigla;
-    private Calendar dataInclusao;
-    private Calendar dataExclusao;
+    private Calendar dataInicio;
+    private Calendar dataTermino;
     private int qtdeAvaliacao;
     private Sala sala;
     private Disciplina disciplina;
@@ -29,20 +29,20 @@ public class Turma implements Entidade{
         this.sigla = sigla;
     }
 
-    public Calendar getDataInclusao() {
-        return dataInclusao;
+    public Calendar getDataInicio() {
+        return dataInicio;
     }
 
-    public void setDataInclusao(Calendar dataInclusao) {
-        this.dataInclusao = dataInclusao;
+    public void setDataInicio(Calendar dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
-    public Calendar getDataExclusao() {
-        return dataExclusao;
+    public Calendar getDataTermino() {
+        return dataTermino;
     }
 
-    public void setDataExclusao(Calendar dataExclusao) {
-        this.dataExclusao = dataExclusao;
+    public void setDataTermino(Calendar dataTermino) {
+        this.dataTermino = dataTermino;
     }
 
     public int getQtdeAvaliacao() {
@@ -80,5 +80,20 @@ public class Turma implements Entidade{
     @Override
     public String exibir() {
         return String.format("Turma: %d - %s", this.getCodigo(), this.getSigla());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Turma turma = (Turma) o;
+
+        return codigo == turma.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
     }
 }

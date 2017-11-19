@@ -4,8 +4,9 @@ public class NotaAvaliacao {
 
     private long codigo;
     private Avaliacao avaliacao;
-    private Aluno aluno;
+    private AndamentoIndividual andamentoIndividual;
     private double nota;
+    private Conceito conceito;
 
     public long getCodigo() {
         return codigo;
@@ -23,12 +24,12 @@ public class NotaAvaliacao {
         this.avaliacao = avaliacao;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public AndamentoIndividual getAndamentoIndividual() {
+        return andamentoIndividual;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setAndamentoIndividual(AndamentoIndividual andamentoIndividual) {
+        this.andamentoIndividual = andamentoIndividual;
     }
 
     public double getNota() {
@@ -37,5 +38,32 @@ public class NotaAvaliacao {
 
     public void setNota(double nota) {
         this.nota = nota;
+    }
+
+    public Conceito getConceito() {
+        return conceito;
+    }
+
+    public void setConceito(Conceito conceito) {
+        this.conceito = conceito;
+    }
+
+    public int getConceitoNota() {
+        return this.getConceito().getEquivalencia();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NotaAvaliacao that = (NotaAvaliacao) o;
+
+        return codigo == that.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
     }
 }

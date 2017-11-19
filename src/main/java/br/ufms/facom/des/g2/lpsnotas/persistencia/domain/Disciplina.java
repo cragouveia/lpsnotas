@@ -1,15 +1,10 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
-import java.util.Calendar;
-
-public class Disciplina {
+public abstract class Disciplina implements Entidade {
 
     private long codigo;
     private String nome;
     private String sigla;
-    private String faculdadeResponsavel;
-    private Calendar dataInclusao;
-    private Calendar dataExclusao;
     private String ementa;
 
     public long getCodigo() {
@@ -36,30 +31,6 @@ public class Disciplina {
         this.sigla = sigla;
     }
 
-    public String getFaculdadeResponsavel() {
-        return faculdadeResponsavel;
-    }
-
-    public void setFaculdadeResponsavel(String faculdadeResponsavel) {
-        this.faculdadeResponsavel = faculdadeResponsavel;
-    }
-
-    public Calendar getDataInclusao() {
-        return dataInclusao;
-    }
-
-    public void setDataInclusao(Calendar dataInclusao) {
-        this.dataInclusao = dataInclusao;
-    }
-
-    public Calendar getDataExclusao() {
-        return dataExclusao;
-    }
-
-    public void setDataExclusao(Calendar dataExclusao) {
-        this.dataExclusao = dataExclusao;
-    }
-
     public String getEmenta() {
         return ementa;
     }
@@ -68,4 +39,23 @@ public class Disciplina {
         this.ementa = ementa;
     }
 
+    @Override
+    public String exibir() {
+        return String.format("Disciplina: %d - %s - %s", this.getCodigo(), this.getNome(), this.getSigla());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Disciplina that = (Disciplina) o;
+
+        return codigo == that.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }

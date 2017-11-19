@@ -126,4 +126,19 @@ public class Aluno implements Entidade{
     public String exibir() {
         return String.format("Aluno: %s - %s", this.getRga(), this.getNome()) ;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Aluno aluno = (Aluno) o;
+
+        return codigo == aluno.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }

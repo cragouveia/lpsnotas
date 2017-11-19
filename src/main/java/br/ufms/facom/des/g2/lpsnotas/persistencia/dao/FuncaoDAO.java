@@ -17,6 +17,11 @@ public class FuncaoDAO extends Dao<Funcao> {
     }
 
     @Override
+    public void createTable() {
+        createTable("funcao", "create table funcao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250));");
+    }
+
+    @Override
     public void start() {
         FuncaoBuilder.newFuncao("Administador", "Usuário com permissões de administrar todo o sistema")
                 .more("Professor", "Usuário com permissões de gerenciar notas de alunos")

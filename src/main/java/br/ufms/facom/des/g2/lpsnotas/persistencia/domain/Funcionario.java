@@ -135,5 +135,19 @@ public class Funcionario {
         return String.format("Funcionario %d - %s - %s", this.getCodigo(), this.getCpf(), this.getNome());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Funcionario that = (Funcionario) o;
+
+        return codigo == that.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }
 

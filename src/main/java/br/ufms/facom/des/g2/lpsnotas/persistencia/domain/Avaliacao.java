@@ -34,4 +34,19 @@ public class Avaliacao implements Entidade{
     public String exibir() {
         return String.format("Avaliação: %d - %s => Turma %s", this.getCodigo(), this.getNome(), this.getTurma().getSigla());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Avaliacao avaliacao = (Avaliacao) o;
+
+        return codigo == avaliacao.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }

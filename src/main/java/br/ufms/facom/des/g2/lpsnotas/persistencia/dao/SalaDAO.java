@@ -20,6 +20,11 @@ public class SalaDAO extends Dao<Sala> {
     }
 
     @Override
+    public void createTable() {
+        createTable("sala", "create table sala (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250), bloco varchar(10), capacidade int);");
+    }
+
+    @Override
     public void start() {
         SalaBuilder.newSala("Sala 1", "Sala multimeios", "Bloco A", 20)
                 .more("Sala 2", "Laboratório de Pós Graduação", "Bloco B", 30)

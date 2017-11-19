@@ -24,6 +24,11 @@ public class FuncionarioDAO extends Dao<Funcionario> {
     }
 
     @Override
+    public void createTable() {
+        createTable("funcionario", "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), rg varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), salario numeric(10,2), sexo char(1), cargo varchar(50), codigoFuncao int not null references funcao(codigo));");
+    }
+
+    @Override
     public void start() {
         Funcao f = new Funcao();
         f.setCodigo(1);
@@ -69,7 +74,7 @@ public class FuncionarioDAO extends Dao<Funcionario> {
                     pstmt = connection.prepareStatement(INSERT_SQL);
                 } else {
                     pstmt = connection.prepareStatement(UPDATE_SQL);
-                    pstmt.setLong(13, funcionario.getCodigo());
+                    pstmt.setLong(14, funcionario.getCodigo());
                 }
                 pstmt.setString(1, funcionario.getNome());
                 pstmt.setString(2, funcionario.getCpf());
@@ -82,7 +87,8 @@ public class FuncionarioDAO extends Dao<Funcionario> {
                 pstmt.setString(9, funcionario.getUf());
                 pstmt.setDouble(10, funcionario.getSalario());
                 pstmt.setString(11, funcionario.getSexo().name());
-                pstmt.setLong(12, funcionario.getFuncao().getCodigo());
+                pstmt.setString(12, funcionario.getCargo());
+                pstmt.setLong(13, funcionario.getFuncao().getCodigo());
                 pstmt.execute();
                 if (funcionario.getCodigo() == 0) {
                     funcionario.setCodigo(getCodigoObjeto());

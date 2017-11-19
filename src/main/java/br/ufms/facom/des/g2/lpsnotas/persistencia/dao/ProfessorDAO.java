@@ -22,6 +22,11 @@ public class ProfessorDAO extends Dao<Professor> {
     }
 
     @Override
+    public void createTable() {
+        createTable("professor", "create table professor (codigo int primary key check (codigo > 0), faculdade varchar(100) not null, foreign key (codigo) references funcionario(codigo));");
+    }
+
+    @Override
     public void start() {
         Funcao f = new Funcao();
         f.setCodigo(2);
@@ -86,8 +91,8 @@ public class ProfessorDAO extends Dao<Professor> {
 
     @Override
     public void delete(Entidade entidade) {
-        funcionarioDAO.delete(entidade);
         super.delete(entidade);
+        funcionarioDAO.delete(entidade);
     }
 
 }

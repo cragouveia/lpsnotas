@@ -34,4 +34,18 @@ public class Funcao implements Entidade {
         return String.format("Função %d - %s", this.getCodigo(), this.getNome());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Funcao funcao = (Funcao) o;
+
+        return codigo == funcao.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }

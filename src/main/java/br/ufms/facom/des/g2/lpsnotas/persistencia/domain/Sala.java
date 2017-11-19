@@ -52,4 +52,19 @@ public class Sala {
     public String exibir() {
         return String.format("Sala %d - %s - %d", this.getCodigo(), this.getNome(), this.getCapacidade());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sala sala = (Sala) o;
+
+        return codigo == sala.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }

@@ -24,16 +24,6 @@ public abstract class Dao<T> {
     protected PreparedStatement pstmt;
     protected ResultSet rs;
 
-    private static final String [] SQL_TABLE = new String[] {
-            "create table funcao (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250));",
-            "create table funcionario (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, cpf varchar(15), rg varchar(15), datanascimento date not null, telefone varchar(15), email varchar(60), nacionalidade varchar(50), cidade varchar(100), uf char(2), salario numeric(10,2), sexo char(1), codigoFuncao int references funcao(codigo));",
-            "create table professor (codigo int primary key check (codigo > 0), faculdade varchar(100) not null, foreign key (codigo) references funcionario(codigo));",
-            "create table sala (codigo int primary key AUTO_INCREMENT check (codigo > 0), nome varchar(80) not null, descricao varchar(250), bloco varchar(10), capacidade int);",
-            "create table tipodisciplina (codigo int primary key AUTO_INCREMENT check (codigo > 0), descricao varchar(100) not null);"
-    };
-
-    private static final String [] TABLE = new String[] {"funcao", "funcionario", "professor", "sala", "tipodisciplina"};
-
     private static final String GET_LAST_ID = "select LAST_INSERT_ID()";
     protected String INSERT_SQL;
     protected String UPDATE_SQL;
@@ -52,7 +42,7 @@ public abstract class Dao<T> {
         }
     }
 
-    public Dao(String tableDescription, String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
+    public Dao(String tableDescription,String INSERT_SQL, String UPDATE_SQL, String DELETE_SQL, String FIND_BY_ID_SQL, String GET_ALL_SQL) {
         super();
         this.tableDescription = tableDescription;
         this.INSERT_SQL = INSERT_SQL;
@@ -60,17 +50,15 @@ public abstract class Dao<T> {
         this.DELETE_SQL = DELETE_SQL;
         this.FIND_BY_ID_SQL = FIND_BY_ID_SQL;
         this.GET_ALL_SQL = GET_ALL_SQL;
-        createTables();
+        createTable();
     }
 
-    private void createTables() {
+    protected void createTable(String table, String sql) {
         try {
             try {
-                for (int i = 0; i < SQL_TABLE.length; i++) {
-                    if (!validadeTable(TABLE[i])) {
-                        pstmt = connection.prepareStatement(SQL_TABLE[i]);
-                        pstmt.executeUpdate();
-                    }
+                if (!validadeTable(table)) {
+                    pstmt = connection.prepareStatement(sql);
+                    pstmt.executeUpdate();
                 }
             }
             finally {
@@ -78,9 +66,8 @@ public abstract class Dao<T> {
             }
         }
         catch (Exception e) {
-            logger.error("Houve um erro ao tentar se conectar com  banco de dados", e);
+            new Exception(String.format("Houve um erro na tentativa de criar a tabela %s", table));
         }
-
     }
 
     private boolean validadeTable(String table) {
@@ -95,11 +82,12 @@ public abstract class Dao<T> {
             }
         }
         catch (Exception e) {
-            logger.error("Houve um erro ao tentar se conectar com  banco de dados", e);
+            new Exception(String.format("Houve um erro na tentativa de verificar a existência da tabela %s", table));
             return false;
         }
     }
 
+    public abstract void createTable();
     public abstract void start();
 
     protected abstract T resultSetToObjet(ResultSet rs);

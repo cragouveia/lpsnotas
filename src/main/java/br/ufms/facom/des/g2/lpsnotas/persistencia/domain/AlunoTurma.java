@@ -55,4 +55,19 @@ public class AlunoTurma implements Entidade {
     public String exibir() {
         return "";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AlunoTurma that = (AlunoTurma) o;
+
+        return codigo == that.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (codigo ^ (codigo >>> 32));
+    }
 }
