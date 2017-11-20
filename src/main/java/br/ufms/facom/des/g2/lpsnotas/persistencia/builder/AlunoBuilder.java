@@ -1,6 +1,5 @@
 package br.ufms.facom.des.g2.lpsnotas.persistencia.builder;
 
-import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Funcao;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Aluno;
 import br.ufms.facom.des.g2.lpsnotas.persistencia.domain.Sexo;
 
