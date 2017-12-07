@@ -2,7 +2,7 @@ package br.ufms.facom.des.g2.lpsnotas.persistencia.domain;
 
 import java.util.Calendar;
 
-public class Funcionario {
+public class Funcionario implements Entidade  {
 
     private long codigo;
     private String nome;
