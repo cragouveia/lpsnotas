@@ -13,6 +13,10 @@ public class AndamentoIndividual implements Entidade {
     private Professor professor;
     private List<NotaAvaliacao> notas = new ArrayList();
 
+    public AndamentoIndividual() {
+        status = Status.EM_ANDAMENTO;
+    }
+
     @Override
     public long getCodigo() {
         return codigo;

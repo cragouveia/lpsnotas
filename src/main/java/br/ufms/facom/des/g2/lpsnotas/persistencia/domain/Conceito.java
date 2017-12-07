@@ -21,11 +21,11 @@ public enum Conceito {
         int value = 0;
         switch (conceito) {
             case "A":
-                value =  3;
+                value = 3;
                 break;
 
             case "B":
-                value =  2;
+                value = 2;
                 break;
             case "C":
                 value = 1;

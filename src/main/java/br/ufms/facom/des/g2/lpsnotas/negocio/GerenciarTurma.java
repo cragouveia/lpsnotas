@@ -25,7 +25,7 @@ public class GerenciarTurma extends Gerenciar<Turma>{
         avaliacaoTurma.definirQtdeAvaliacao(turma);
     }
 
-    public Turma turma(Turma turma) throws Exception{
+    public Turma save(Turma turma) throws Exception{
         definirQtdeAvaliacao(turma);
         if (!validarDisciplina(turma.getDisciplina())) {
             throw new Exception("Essa disciplina não é compatível com o curso.");

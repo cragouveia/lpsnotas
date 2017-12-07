@@ -190,7 +190,7 @@ public class AlunoDAO extends Dao<Aluno> {
         List<Aluno> list = new ArrayList();
         try {
             try {
-                pstmt = connection.prepareStatement("select a.* from aluno a, alunoturma at, turma t, disciplina d, disciplinagraduacao gd where a.codigo = at.codigoaluno and at.codigoturma = t.codigo and t.codigodisciplina = d.codigo and d.codigo = dg.codigo order by a.nome");
+                pstmt = connection.prepareStatement("select a.* from aluno a, alunoturma at, turma t, disciplina d, disciplinagraduacao gd where a.codigo = at.codigoaluno and at.codigoturma = t.codigo and t.codigodisciplina = d.codigo and d.codigo = dg.codigo order by t.sigla, a.nome");
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     list.add(resultSetToObjet(rs));
@@ -211,7 +211,7 @@ public class AlunoDAO extends Dao<Aluno> {
         List<Aluno> list = new ArrayList();
         try {
             try {
-                pstmt = connection.prepareStatement("select a.* from aluno a, alunoturma at, turma t, disciplina d, disciplinaposgraduacao gpd where a.codigo = at.codigoaluno and at.codigoturma = t.codigo and t.codigodisciplina = d.codigo and d.codigo = dpg.codigo order by a.nome");
+                pstmt = connection.prepareStatement("select a.* from aluno a, alunoturma at, turma t, disciplina d, disciplinaposgraduacao gpd where a.codigo = at.codigoaluno and at.codigoturma = t.codigo and t.codigodisciplina = d.codigo and d.codigo = dpg.codigo order by t.sigla,  a.nome");
                 rs = pstmt.executeQuery();
                 while (rs.next()) {
                     list.add(resultSetToObjet(rs));
